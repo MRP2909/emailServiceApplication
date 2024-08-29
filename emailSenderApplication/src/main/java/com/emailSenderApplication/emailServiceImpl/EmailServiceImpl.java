@@ -88,20 +88,19 @@ public class EmailServiceImpl implements EmailService {
 	@Override
 	public void sendEmailWithFile(String to, String subject, String message, File file) {
 
-		MimeMessage SimpleMailMessage = mailSender.createMimeMessage();
+		MimeMessage mimeMessage = mailSender.createMimeMessage();
 
 		try {
-			MimeMessageHelper helper = new MimeMessageHelper(SimpleMailMessage, true);
+			MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
 
 			helper.setTo(to);
 			helper.setSubject(subject);
 			helper.setText(message);
 			helper.setFrom("milindpagar16@gmail.com");
-			mailSender.send(SimpleMailMessage);
 
 			FileSystemResource fileSystemResource = new FileSystemResource(file);
 			helper.addAttachment(fileSystemResource.getFilename(), file);
-			mailSender.send(SimpleMailMessage);
+			mailSender.send(mimeMessage);
 			logger.info("html mail send successfully");
 
 		} catch (MessagingException e) {
